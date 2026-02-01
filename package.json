@@ -108,6 +108,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
+    "@types/pg": "^8.10.9",
     "@types/vscode": "^1.85.0",
     "typescript": "^5.4.2"
   },

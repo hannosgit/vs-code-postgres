@@ -1,7 +1,10 @@
 import * as vscode from "vscode";
 import { ConnectionManager } from "./connections/connectionManager";
+import { runCancelableQuery } from "./query/queryRunner";
+import { getSqlToRun } from "./query/sqlText";
 import { ConnectionsTreeDataProvider } from "./views/connectionsTree";
 import { SchemaTreeDataProvider } from "./views/schemaTree";
+import { ResultsPanel } from "./webviews/resultsPanel";
 import { showNotImplemented } from "./utils/notifications";
 
 export function activate(context: vscode.ExtensionContext): void {
@@ -53,9 +56,15 @@ export function activate(context: vscode.ExtensionContext): void {
         return;
       }
 
-      await connectionManager.connect(picked.profile.id);
-      connectionsProvider.refresh();
-      schemaProvider.refresh();
+      try {
+        await connectionManager.connect(picked.profile.id);
+        connectionsProvider.refresh();
+        schemaProvider.refresh();
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Failed to connect to Postgres.";
+        void vscode.window.showErrorMessage(message);
+      }
     }),
     vscode.commands.registerCommand("postgres.disconnect", async () => {
       await connectionManager.disconnect();
@@ -65,8 +74,39 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand("postgres.refreshSchema", () => {
       schemaProvider.refresh();
     }),
-    vscode.commands.registerCommand("postgres.runQuery", () => {
-      showNotImplemented("Run Query");
+    vscode.commands.registerCommand("postgres.runQuery", async () => {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) {
+        void vscode.window.showWarningMessage("Open a SQL file to run a query.");
+        return;
+      }
+
+      const sql = getSqlToRun(editor);
+      if (!sql) {
+        void vscode.window.showWarningMessage("No SQL statement selected or found.");
+        return;
+      }
+
+      const pool = connectionManager.getPool();
+      if (!pool) {
+        void vscode.window.showWarningMessage("Connect to a Postgres profile first.");
+        return;
+      }
+
+      const panel = ResultsPanel.createOrShow(context.extensionUri);
+      panel.showLoading(sql);
+      panel.setCancelHandler(undefined);
+
+      const { promise, cancel } = runCancelableQuery(pool, sql);
+      panel.setCancelHandler(cancel);
+
+      const result = await promise;
+      panel.setCancelHandler(undefined);
+      panel.showResults(result);
+
+      if (result.error && !result.cancelled) {
+        void vscode.window.showErrorMessage(result.error.message);
+      }
     }),
     vscode.commands.registerCommand("postgres.openTable", () => {
       showNotImplemented("Open Table");

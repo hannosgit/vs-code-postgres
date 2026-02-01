@@ -25,14 +25,14 @@ export class SchemaTreeDataProvider implements vscode.TreeDataProvider<vscode.Tr
   }
 
   getChildren(): vscode.ProviderResult<vscode.TreeItem[]> {
-    const activeId = this.connectionManager.getActiveProfileId();
-    if (!activeId) {
+    const activeProfile = this.connectionManager.getActiveProfile();
+    if (!activeProfile) {
       return [
         new SchemaPlaceholderItem("No active connection"),
         new SchemaPlaceholderItem("Connect to load schema")
       ];
     }
 
-    return [new SchemaPlaceholderItem(`Connected to ${activeId}`)];
+    return [new SchemaPlaceholderItem(`Connected to ${activeProfile.label}`)];
   }
 }

@@ -25,4 +25,11 @@ Add connection profiles to your user or workspace settings:
 ]
 ```
 
-Passwords will be handled via VS Code SecretStorage in a later milestone.
+When connecting, the extension will prompt for a password and store it in VS Code SecretStorage.
+
+## Running a Query
+
+- Connect via Command Palette: `Postgres: Connect`
+- Open a SQL file and place the cursor in a statement (or select SQL)
+- Run `Postgres: Run Query` to see results in a webview
+- Use the Cancel button in the results panel to stop long-running queries
