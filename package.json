@@ -10,17 +10,6 @@
   "categories": [
     "Databases"
   ],
-  "activationEvents": [
-    "onCommand:postgres.connect",
-    "onCommand:postgres.disconnect",
-    "onCommand:postgres.refreshSchema",
-    "onCommand:postgres.runQuery",
-    "onCommand:postgres.openTable",
-    "onCommand:postgres.exportResults",
-    "onCommand:postgres.clearPassword",
-    "onView:postgresConnections",
-    "onView:postgresSchema"
-  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
