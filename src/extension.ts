@@ -8,6 +8,8 @@ import { SchemaTreeDataProvider } from "./views/schemaTree";
 import { ResultsPanel } from "./webviews/resultsPanel";
 import { showNotImplemented } from "./utils/notifications";
 
+const lastProfileStateKey = "postgresExplorer.lastProfileId";
+
 export function activate(context: vscode.ExtensionContext): void {
   const connectionManager = new ConnectionManager(context.secrets);
   const connectionsProvider = new ConnectionsTreeDataProvider(connectionManager);
@@ -27,6 +29,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
   connectionManager.onDidChangeActive((state) => {
     if (state.activeProfileId) {
+      void context.workspaceState.update(lastProfileStateKey, state.activeProfileId);
       statusBar.text = `Postgres: ${state.activeProfileId}`;
       statusBar.command = "postgres.disconnect";
     } else {
@@ -153,6 +156,36 @@ export function activate(context: vscode.ExtensionContext): void {
       );
     })
   );
+
+  const restoreLastProfile = async (): Promise<void> => {
+    if (connectionManager.getActiveProfileId()) {
+      return;
+    }
+
+    const lastProfileId = context.workspaceState.get<string>(lastProfileStateKey);
+    if (!lastProfileId) {
+      return;
+    }
+
+    const profiles = connectionManager.listProfiles();
+    if (!profiles.some((profile) => profile.id === lastProfileId)) {
+      await context.workspaceState.update(lastProfileStateKey, undefined);
+      return;
+    }
+
+    try {
+      await connectionManager.connect(lastProfileId);
+    } catch (error) {
+      if (error instanceof Error && error.message === "Connection canceled.") {
+        return;
+      }
+      const message =
+        error instanceof Error ? error.message : "Failed to connect to Postgres.";
+      void vscode.window.showErrorMessage(message);
+    }
+  };
+
+  void restoreLastProfile();
 }
 
 export function deactivate(): void {}
