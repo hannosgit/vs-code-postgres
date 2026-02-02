@@ -1,0 +1,56 @@
+# Repository Guidelines
+
+This repository contains a VS Code extension for exploring PostgreSQL databases. Use the notes below to contribute changes consistently.
+
+## Project Structure & Module Organization
+- `src/` contains the TypeScript source. Entry point: `src/extension.ts`.
+- `src/connections/` manages profiles and connection lifecycle.
+- `src/query/` handles SQL selection and execution helpers.
+- `src/views/` provides tree view data providers for the sidebar.
+- `src/webviews/` renders results UI and related messaging.
+- `src/utils/` holds shared helpers (notifications, etc.).
+- `dist/` is generated output from the TypeScript build.
+- `specs.md` documents product goals, architecture, and roadmap.
+
+## Build, Test, and Development Commands
+- `npm install` installs dependencies.
+- `npm run compile` builds TypeScript into `dist/` using `tsc`.
+- `npm run watch` runs `tsc -watch` for iterative development.
+- `npm run package` creates a VSIX via `vsce package` (requires `vsce`).
+
+## Coding Style & Naming Conventions
+- TypeScript with `strict` mode (see `tsconfig.json`).
+- Match the existing style: 2-space indentation, double quotes, and semicolons.
+- File names use lower camelCase (e.g., `connectionManager.ts`), classes use PascalCase.
+
+## Testing Guidelines
+- No automated tests are wired yet. Planned test areas are listed in `specs.md`.
+- If you add tests, introduce a test runner and add a script in `package.json`.
+- Prefer `*.test.ts` or `*.spec.ts` naming and document where tests live.
+
+## Commit & Pull Request Guidelines
+- Commit history uses short, descriptive messages (sentence case or simple imperatives).
+- Keep commits focused and mention user-facing changes in the PR description.
+- For UI/webview changes, include screenshots or short clips.
+- Note any new commands, settings, or config keys in the PR.
+
+## Security & Configuration Tips
+- Do not commit credentials. Profiles live in VS Code settings under `postgresExplorer.profiles` and passwords are stored in SecretStorage.
+- Example settings snippet:
+
+```json
+"postgresExplorer.profiles": [
+  {
+    "id": "local",
+    "label": "Local Postgres",
+    "host": "localhost",
+    "port": 5432,
+    "database": "postgres",
+    "user": "postgres"
+  }
+]
+```
+
+## Agent-Specific Instructions
+- Avoid editing `dist/` directly; always rebuild with `npm run compile`.
+- Keep changes confined to `src/` unless updating docs or configuration.
