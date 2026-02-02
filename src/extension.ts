@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { ConnectionManager } from "./connections/connectionManager";
+import { OpenTableService } from "./query/openTableService";
 import { runCancelableQuery } from "./query/queryRunner";
 import { getSqlToRun } from "./query/sqlText";
 import { ConnectionsTreeDataProvider } from "./views/connectionsTree";
@@ -11,6 +12,7 @@ export function activate(context: vscode.ExtensionContext): void {
   const connectionManager = new ConnectionManager(context.secrets);
   const connectionsProvider = new ConnectionsTreeDataProvider(connectionManager);
   const schemaProvider = new SchemaTreeDataProvider(connectionManager);
+  const openTableService = new OpenTableService(connectionManager, context.extensionUri);
 
   context.subscriptions.push(
     vscode.window.registerTreeDataProvider("postgresConnections", connectionsProvider),
@@ -117,35 +119,9 @@ export function activate(context: vscode.ExtensionContext): void {
         void vscode.window.showErrorMessage(result.error.message);
       }
     }),
-    vscode.commands.registerCommand("postgres.openTable", async (item?: unknown) => {
-      const table = toTableContext(item);
-      if (!table) {
-        void vscode.window.showWarningMessage("Select a table in the Postgres Schema view.");
-        return;
-      }
-
-      const pool = connectionManager.getPool();
-      if (!pool) {
-        void vscode.window.showWarningMessage("Connect to a Postgres profile first.");
-        return;
-      }
-
-      const sql = buildOpenTableSql(table.schemaName, table.tableName, OPEN_TABLE_ROW_LIMIT);
-      const panel = ResultsPanel.createOrShow(context.extensionUri);
-      panel.showLoading(sql);
-      panel.setCancelHandler(undefined);
-
-      const { promise, cancel } = runCancelableQuery(pool, sql, OPEN_TABLE_ROW_LIMIT);
-      panel.setCancelHandler(cancel);
-
-      const result = await promise;
-      panel.setCancelHandler(undefined);
-      panel.showResults(result);
-
-      if (result.error && !result.cancelled) {
-        void vscode.window.showErrorMessage(result.error.message);
-      }
-    }),
+    vscode.commands.registerCommand("postgres.openTable", (item?: unknown) =>
+      openTableService.open(item)
+    ),
     vscode.commands.registerCommand("postgres.exportResults", () => {
       showNotImplemented("Export Results");
     }),
@@ -180,30 +156,3 @@ export function activate(context: vscode.ExtensionContext): void {
 }
 
 export function deactivate(): void {}
-
-const OPEN_TABLE_ROW_LIMIT = 200;
-
-type TableContext = { schemaName: string; tableName: string };
-
-function toTableContext(value: unknown): TableContext | undefined {
-  if (!value || typeof value !== "object") {
-    return undefined;
-  }
-
-  const maybe = value as { schemaName?: unknown; tableName?: unknown };
-  if (typeof maybe.schemaName !== "string" || typeof maybe.tableName !== "string") {
-    return undefined;
-  }
-
-  return { schemaName: maybe.schemaName, tableName: maybe.tableName };
-}
-
-function buildOpenTableSql(schemaName: string, tableName: string, limit: number): string {
-  const safeLimit = Number.isFinite(limit) && limit > 0 ? Math.floor(limit) : OPEN_TABLE_ROW_LIMIT;
-  const qualified = `${quoteIdentifier(schemaName)}.${quoteIdentifier(tableName)}`;
-  return `SELECT * FROM ${qualified} LIMIT ${safeLimit};`;
-}
-
-function quoteIdentifier(identifier: string): string {
-  return `"${identifier.replace(/"/g, "\"\"")}"`;
-}
