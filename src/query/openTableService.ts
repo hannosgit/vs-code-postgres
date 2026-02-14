@@ -30,7 +30,7 @@ export class OpenTableService {
   async open(item?: unknown): Promise<void> {
     const table = this.toTableContext(item);
     if (!table) {
-      void vscode.window.showWarningMessage("Select a table in the Postgres Schema view.");
+      void vscode.window.showWarningMessage("Select a table in the DB Schema view.");
       return;
     }
 

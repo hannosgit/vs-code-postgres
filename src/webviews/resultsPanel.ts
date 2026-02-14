@@ -19,7 +19,7 @@ export class ResultsPanel {
     const column = viewColumn ?? vscode.ViewColumn.Beside;
     const panel = vscode.window.createWebviewPanel(
       "postgresResults",
-      "Postgres Results",
+      "DB Explorer Results",
       column,
       { enableScripts: true }
     );
@@ -97,7 +97,7 @@ function buildHtml(
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Postgres Results</title>
+  <title>DB Explorer Results</title>
   <style>
     :root {
       color-scheme: light dark;

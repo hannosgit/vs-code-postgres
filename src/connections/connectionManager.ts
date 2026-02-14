@@ -97,7 +97,7 @@ export class ConnectionManager {
       database: profile.database,
       user: profile.user,
       password,
-      application_name: "VS Code Postgres Explorer"
+      application_name: "VS Code DB Explorer"
     });
 
     try {

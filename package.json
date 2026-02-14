@@ -1,7 +1,7 @@
 {
   "name": "db-explorer",
-  "displayName": "Postgres Explorer",
-  "description": "VS Code extension for PostgreSQL browsing, queries, and data editing.",
+  "displayName": "DB Explorer",
+  "description": "VS Code extension for Database browsing, queries, and data editing.",
   "version": "0.0.1",
   "publisher": "local",
   "engines": {
@@ -15,31 +15,31 @@
     "commands": [
       {
         "command": "postgres.connect",
-        "title": "Postgres: Connect"
+        "title": "DB Explorer: Connect"
       },
       {
         "command": "postgres.disconnect",
-        "title": "Postgres: Disconnect"
+        "title": "DB Explorer: Disconnect"
       },
       {
         "command": "postgres.refreshSchema",
-        "title": "Postgres: Refresh Schema"
+        "title": "DB Explorer: Refresh Schema"
       },
       {
         "command": "postgres.runQuery",
-        "title": "Postgres: Run Query"
+        "title": "DB Explorer: Run Query"
       },
       {
         "command": "postgres.openTable",
-        "title": "Postgres: Open Table"
+        "title": "DB Explorer: Open Table"
       },
       {
         "command": "postgres.exportResults",
-        "title": "Postgres: Export Results"
+        "title": "DB Explorer: Export Results"
       },
       {
         "command": "postgres.clearPassword",
-        "title": "Postgres: Clear Stored Password"
+        "title": "DB Explorer: Clear Stored Password"
       }
     ],
     "menus": {
@@ -69,7 +69,7 @@
       "activitybar": [
         {
           "id": "postgresExplorer",
-          "title": "Postgres",
+          "title": "DB Explorer",
           "icon": "resources/postgres.svg"
         }
       ]
@@ -78,16 +78,16 @@
       "postgresExplorer": [
         {
           "id": "postgresConnections",
-          "name": "Postgres Connections"
+          "name": "DB Connections"
         },
         {
           "id": "postgresSchema",
-          "name": "Postgres Schema"
+          "name": "DB Schema"
         }
       ]
     },
     "configuration": {
-      "title": "Postgres Explorer",
+      "title": "DB Explorer",
       "properties": {
         "postgresExplorer.profiles": {
           "type": "array",

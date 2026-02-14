@@ -60,7 +60,7 @@ export class DataEditorPanel {
     const column = viewColumn ?? vscode.ViewColumn.Beside;
     const panel = vscode.window.createWebviewPanel(
       "postgresDataEditor",
-      "Postgres Data Editor",
+      "DB Explorer Data Editor",
       column,
       { enableScripts: true }
     );
@@ -150,7 +150,7 @@ function buildHtml(state: DataEditorState): string {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Postgres Data Editor</title>
+  <title>DB Explorer Data Editor</title>
   <style>
     :root {
       color-scheme: light dark;

@@ -1,4 +1,4 @@
-# Postgres Explorer (VS Code Extension)
+# DB Explorer (VS Code Extension)
 
 Early scaffold for a PostgreSQL-focused VS Code extension.
 
@@ -29,11 +29,11 @@ When connecting, the extension will prompt for a password and store it in VS Cod
 
 ## Running a Query
 
-- Connect via Command Palette: `Postgres: Connect`
+- Connect via Command Palette: `DB Explorer: Connect`
 - Open a SQL file and place the cursor in a statement (or select SQL)
-- Run `Postgres: Run Query` to see results in a webview
+- Run `DB Explorer: Run Query` to see results in a webview
 - Use the Cancel button in the results panel to stop long-running queries
 
 ## Managing Stored Passwords
 
-- Run `Postgres: Clear Stored Password` to remove a saved password
+- Run `DB Explorer: Clear Stored Password` to remove a saved password

@@ -24,17 +24,17 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
   statusBar.command = "postgres.connect";
-  statusBar.text = "Postgres: Disconnected";
+  statusBar.text = "DB Explorer: Disconnected";
   statusBar.show();
   context.subscriptions.push(statusBar);
 
   connectionManager.onDidChangeActive((state) => {
     if (state.activeProfileId) {
       void context.workspaceState.update(lastProfileStateKey, state.activeProfileId);
-      statusBar.text = `Postgres: ${state.activeProfileId}`;
+      statusBar.text = `DB Explorer: ${state.activeProfileId}`;
       statusBar.command = "postgres.disconnect";
     } else {
-      statusBar.text = "Postgres: Disconnected";
+      statusBar.text = "DB Explorer: Disconnected";
       statusBar.command = "postgres.connect";
     }
   });
@@ -55,7 +55,7 @@ export function activate(context: vscode.ExtensionContext): void {
           description: `${profile.user}@${profile.host}:${profile.port}/${profile.database}`,
           profile
         })),
-        { placeHolder: "Select a Postgres connection" }
+        { placeHolder: "Select a DB Explorer connection" }
       );
 
       if (!picked) {
