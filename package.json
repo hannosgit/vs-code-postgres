@@ -59,6 +59,11 @@
       ],
       "view/item/context": [
         {
+          "command": "dbExplorer.refreshSchema",
+          "when": "view == dbSchema",
+          "group": "navigation@5"
+        },
+        {
           "command": "dbExplorer.openTable",
           "when": "view == dbSchema && viewItem == dbTable",
           "group": "navigation@10"
