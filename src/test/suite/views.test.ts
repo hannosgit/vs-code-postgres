@@ -20,7 +20,7 @@ function createSecretStorage(): vscode.SecretStorage {
 }
 
 async function setProfiles(profiles?: ConnectionProfile[]): Promise<void> {
-  const config = vscode.workspace.getConfiguration("postgresExplorer");
+  const config = vscode.workspace.getConfiguration("dbExplorer");
   await config.update("profiles", profiles, target);
 }
 
@@ -36,7 +36,7 @@ describe("ConnectionsTreeDataProvider", () => {
   let previousProfiles: ConnectionProfile[] | undefined;
 
   beforeEach(async () => {
-    const config = vscode.workspace.getConfiguration("postgresExplorer");
+    const config = vscode.workspace.getConfiguration("dbExplorer");
     previousProfiles = config.get<ConnectionProfile[]>("profiles");
     await setProfiles([]);
   });

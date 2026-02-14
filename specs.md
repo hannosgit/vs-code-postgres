@@ -1,9 +1,10 @@
-# VS Code PostgreSQL Extension — Specs
+# VS Code Database Explorer Extension — Specs
 
 ## Goals
 - Primary users: developers
 - Core workflows: explore schema, run ad‑hoc SQL, edit data
-- Connection scope: local and remote PostgreSQL instances
+- Connection scope: local and remote DB instances
+- For now only PostgreSQL is supported
 - SSL: not supported in v1
 - Data editing: no special constraints (full CRUD where allowed by DB)
 
@@ -22,7 +23,7 @@
 
 ## UX / UI Overview
 ### Sidebar Views
-- **Postgres Connections**
+- **DB Connections**
   - List of saved profiles
   - Connect/disconnect with status indicator
   - Context menu: Edit, Delete, Refresh Schema
@@ -32,7 +33,7 @@
   - Lazy-loaded nodes
 
 ### SQL Editor
-- Command: **Postgres: Run Query**
+- Command: **DB: Run Query**
   - Executes selection or current statement
 - Results pane (webview)
   - Grid with paging
@@ -47,14 +48,14 @@
 - Primary key aware update/delete; fallback to all-columns match if no PK
 
 ## Extension Contributions (package.json)
-- Views: `postgresConnections`, `postgresSchema`
+- Views: `dbConnections`, `dbSchema`
 - Commands:
-  - `postgres.connect`
-  - `postgres.disconnect`
-  - `postgres.refreshSchema`
-  - `postgres.runQuery`
-  - `postgres.openTable`
-  - `postgres.exportResults`
+  - `dbExplorer.connect`
+  - `dbExplorer.disconnect`
+  - `dbExplorer.refreshSchema`
+  - `dbExplorer.runQuery`
+  - `dbExplorer.openTable`
+  - `dbExplorer.exportResults`
 - Menus:
   - View title actions (refresh, connect)
   - Tree item context actions (open table, run query in new editor)

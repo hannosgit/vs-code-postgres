@@ -9,7 +9,7 @@ import { DataEditorPanel } from "./webviews/dataEditorPanel";
 import { ResultsPanel } from "./webviews/resultsPanel";
 import { showNotImplemented } from "./utils/notifications";
 
-const lastProfileStateKey = "postgresExplorer.lastProfileId";
+const lastProfileStateKey = "dbExplorer.lastProfileId";
 
 export function activate(context: vscode.ExtensionContext): void {
   const connectionManager = new ConnectionManager(context.secrets);
@@ -18,12 +18,12 @@ export function activate(context: vscode.ExtensionContext): void {
   const openTableService = new OpenTableService(connectionManager, context.extensionUri);
 
   context.subscriptions.push(
-    vscode.window.registerTreeDataProvider("postgresConnections", connectionsProvider),
-    vscode.window.registerTreeDataProvider("postgresSchema", schemaProvider)
+    vscode.window.registerTreeDataProvider("dbConnections", connectionsProvider),
+    vscode.window.registerTreeDataProvider("dbSchema", schemaProvider)
   );
 
   const statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-  statusBar.command = "postgres.connect";
+  statusBar.command = "dbExplorer.connect";
   statusBar.text = "DB Explorer: Disconnected";
   statusBar.show();
   context.subscriptions.push(statusBar);
@@ -32,15 +32,15 @@ export function activate(context: vscode.ExtensionContext): void {
     if (state.activeProfileId) {
       void context.workspaceState.update(lastProfileStateKey, state.activeProfileId);
       statusBar.text = `DB Explorer: ${state.activeProfileId}`;
-      statusBar.command = "postgres.disconnect";
+      statusBar.command = "dbExplorer.disconnect";
     } else {
       statusBar.text = "DB Explorer: Disconnected";
-      statusBar.command = "postgres.connect";
+      statusBar.command = "dbExplorer.connect";
     }
   });
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("postgres.connect", async () => {
+    vscode.commands.registerCommand("dbExplorer.connect", async () => {
       const profiles = connectionManager.listProfiles();
       if (profiles.length === 0) {
         void vscode.window.showWarningMessage(
@@ -68,19 +68,19 @@ export function activate(context: vscode.ExtensionContext): void {
         schemaProvider.refresh();
       } catch (error) {
         const message =
-          error instanceof Error ? error.message : "Failed to connect to Postgres.";
+          error instanceof Error ? error.message : "Failed to connect to DB.";
         void vscode.window.showErrorMessage(message);
       }
     }),
-    vscode.commands.registerCommand("postgres.disconnect", async () => {
+    vscode.commands.registerCommand("dbExplorer.disconnect", async () => {
       await connectionManager.disconnect();
       connectionsProvider.refresh();
       schemaProvider.refresh();
     }),
-    vscode.commands.registerCommand("postgres.refreshSchema", () => {
+    vscode.commands.registerCommand("dbExplorer.refreshSchema", () => {
       schemaProvider.refresh();
     }),
-    vscode.commands.registerCommand("postgres.runQuery", async (resource?: vscode.Uri) => {
+    vscode.commands.registerCommand("dbExplorer.runQuery", async (resource?: vscode.Uri) => {
       let editor = vscode.window.activeTextEditor;
 
       if (resource) {
@@ -104,7 +104,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
       const pool = connectionManager.getPool();
       if (!pool) {
-        void vscode.window.showWarningMessage("Connect to a Postgres profile first.");
+        void vscode.window.showWarningMessage("Connect to a DB profile first.");
         return;
       }
 
@@ -125,13 +125,13 @@ export function activate(context: vscode.ExtensionContext): void {
         void vscode.window.showErrorMessage(result.error.message);
       }
     }),
-    vscode.commands.registerCommand("postgres.openTable", (item?: unknown) =>
+    vscode.commands.registerCommand("dbExplorer.openTable", (item?: unknown) =>
       openTableService.open(item)
     ),
-    vscode.commands.registerCommand("postgres.exportResults", () => {
+    vscode.commands.registerCommand("dbExplorer.exportResults", () => {
       showNotImplemented("Export Results");
     }),
-    vscode.commands.registerCommand("postgres.clearPassword", async () => {
+    vscode.commands.registerCommand("dbExplorer.clearPassword", async () => {
       const profiles = connectionManager.listProfiles();
       if (profiles.length === 0) {
         void vscode.window.showWarningMessage(
@@ -183,7 +183,7 @@ export function activate(context: vscode.ExtensionContext): void {
         return;
       }
       const message =
-        error instanceof Error ? error.message : "Failed to connect to Postgres.";
+        error instanceof Error ? error.message : "Failed to connect to DB.";
       void vscode.window.showErrorMessage(message);
     }
   };

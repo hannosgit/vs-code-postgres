@@ -5,7 +5,7 @@ import { ConnectionManager } from "../connections/connectionManager";
 class SchemaPlaceholderItem extends vscode.TreeItem {
   constructor(label: string, description?: string) {
     super(label, vscode.TreeItemCollapsibleState.None);
-    this.contextValue = "postgresSchemaPlaceholder";
+    this.contextValue = "dbSchemaPlaceholder";
     if (description) {
       this.description = description;
     }
@@ -15,7 +15,7 @@ class SchemaPlaceholderItem extends vscode.TreeItem {
 class SchemaErrorItem extends vscode.TreeItem {
   constructor(label: string, description?: string) {
     super(label, vscode.TreeItemCollapsibleState.None);
-    this.contextValue = "postgresSchemaError";
+    this.contextValue = "dbSchemaError";
     this.iconPath = new vscode.ThemeIcon("error");
     if (description) {
       this.description = description;
@@ -27,7 +27,7 @@ class SchemaErrorItem extends vscode.TreeItem {
 class SchemaItem extends vscode.TreeItem {
   constructor(public readonly schemaName: string) {
     super(schemaName, vscode.TreeItemCollapsibleState.Collapsed);
-    this.contextValue = "postgresSchema";
+    this.contextValue = "dbSchema";
     this.iconPath = new vscode.ThemeIcon("symbol-namespace");
   }
 }
@@ -38,7 +38,7 @@ class TableItem extends vscode.TreeItem {
     public readonly tableName: string
   ) {
     super(tableName, vscode.TreeItemCollapsibleState.Collapsed);
-    this.contextValue = "postgresTable";
+    this.contextValue = "dbTable";
     this.iconPath = new vscode.ThemeIcon("table");
   }
 }
@@ -52,7 +52,7 @@ class ColumnItem extends vscode.TreeItem {
     isNullable: string
   ) {
     super(columnName, vscode.TreeItemCollapsibleState.None);
-    this.contextValue = "postgresColumn";
+    this.contextValue = "dbColumn";
     const nullableSuffix = isNullable === "YES" ? "" : " not null";
     this.description = `${dataType}${nullableSuffix}`;
     this.iconPath = new vscode.ThemeIcon("symbol-field");

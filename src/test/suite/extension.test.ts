@@ -24,13 +24,13 @@ describe("DB Explorer extension", () => {
     const commands = await vscode.commands.getCommands(true);
 
     const expected = [
-      "postgres.connect",
-      "postgres.disconnect",
-      "postgres.refreshSchema",
-      "postgres.runQuery",
-      "postgres.openTable",
-      "postgres.exportResults",
-      "postgres.clearPassword"
+      "dbExplorer.connect",
+      "dbExplorer.disconnect",
+      "dbExplorer.refreshSchema",
+      "dbExplorer.runQuery",
+      "dbExplorer.openTable",
+      "dbExplorer.exportResults",
+      "dbExplorer.clearPassword"
     ];
 
     for (const command of expected) {

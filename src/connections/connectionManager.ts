@@ -15,7 +15,7 @@ export interface ConnectionState {
 }
 
 export class ConnectionManager {
-  private static readonly passwordKeyPrefix = "postgresExplorer.password.";
+  private static readonly passwordKeyPrefix = "dbExplorer.password.";
   private activeProfileId?: string;
   private readonly pools = new Map<string, Pool>();
   private readonly onDidChangeActiveEmitter = new vscode.EventEmitter<ConnectionState>();
@@ -51,7 +51,7 @@ export class ConnectionManager {
   }
 
   listProfiles(): ConnectionProfile[] {
-    const config = vscode.workspace.getConfiguration("postgresExplorer");
+    const config = vscode.workspace.getConfiguration("dbExplorer");
     return config.get<ConnectionProfile[]>("profiles", []);
   }
 

@@ -36,7 +36,7 @@ export class OpenTableService {
 
     const pool = this.connectionManager.getPool();
     if (!pool) {
-      void vscode.window.showWarningMessage("Connect to a Postgres profile first.");
+      void vscode.window.showWarningMessage("Connect to a DB profile first.");
       return;
     }
 
@@ -137,7 +137,7 @@ export class OpenTableService {
 
     const pool = this.connectionManager.getPool();
     if (!pool) {
-      void vscode.window.showWarningMessage("Connect to a Postgres profile first.");
+      void vscode.window.showWarningMessage("Connect to a DB profile first.");
       return;
     }
 
@@ -229,7 +229,7 @@ export class OpenTableService {
 
     const pool = this.connectionManager.getPool();
     if (!pool) {
-      void vscode.window.showWarningMessage("Connect to a Postgres profile first.");
+      void vscode.window.showWarningMessage("Connect to a DB profile first.");
       return;
     }
 

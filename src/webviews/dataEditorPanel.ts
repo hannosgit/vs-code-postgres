@@ -59,7 +59,7 @@ export class DataEditorPanel {
 
     const column = viewColumn ?? vscode.ViewColumn.Beside;
     const panel = vscode.window.createWebviewPanel(
-      "postgresDataEditor",
+      "dbDataEditor",
       "DB Explorer Data Editor",
       column,
       { enableScripts: true }

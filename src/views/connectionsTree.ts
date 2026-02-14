@@ -9,7 +9,7 @@ class ConnectionItem extends vscode.TreeItem {
     super(profile.label, vscode.TreeItemCollapsibleState.None);
     this.id = profile.id;
     this.description = `${profile.user}@${profile.host}:${profile.port}/${profile.database}`;
-    this.contextValue = "postgresConnection";
+    this.contextValue = "dbConnection";
     this.iconPath = new vscode.ThemeIcon(isActive ? "plug" : "circle-outline");
   }
 }
@@ -17,7 +17,7 @@ class ConnectionItem extends vscode.TreeItem {
 class PlaceholderItem extends vscode.TreeItem {
   constructor(label: string) {
     super(label, vscode.TreeItemCollapsibleState.None);
-    this.contextValue = "postgresPlaceholder";
+    this.contextValue = "dbPlaceholder";
   }
 }
 

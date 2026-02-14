@@ -13,7 +13,7 @@ Early scaffold for a PostgreSQL-focused VS Code extension.
 Add connection profiles to your user or workspace settings:
 
 ```json
-"postgresExplorer.profiles": [
+"dbExplorer.profiles": [
   {
     "id": "local",
     "label": "Local Postgres",

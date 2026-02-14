@@ -1,6 +1,7 @@
 # Repository Guidelines
 
-This repository contains a VS Code extension for exploring PostgreSQL databases. Use the notes below to contribute changes consistently.
+This repository contains a VS Code extension for exploring databases. For now only PostgreSQL is supported, support for other databases might be added later.
+Use the notes below to contribute changes consistently.
 
 ## Project Structure & Module Organization
 - `src/` contains the TypeScript source. Entry point: `src/extension.ts`.
@@ -35,11 +36,11 @@ This repository contains a VS Code extension for exploring PostgreSQL databases.
 - Note any new commands, settings, or config keys in the PR.
 
 ## Security & Configuration Tips
-- Do not commit credentials. Profiles live in VS Code settings under `postgresExplorer.profiles` and passwords are stored in SecretStorage.
+- Do not commit credentials. Profiles live in VS Code settings under `dbExplorer.profiles` and passwords are stored in SecretStorage.
 - Example settings snippet:
 
 ```json
-"postgresExplorer.profiles": [
+"dbExplorer.profiles": [
   {
     "id": "local",
     "label": "Local Postgres",

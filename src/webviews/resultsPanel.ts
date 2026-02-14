@@ -18,7 +18,7 @@ export class ResultsPanel {
 
     const column = viewColumn ?? vscode.ViewColumn.Beside;
     const panel = vscode.window.createWebviewPanel(
-      "postgresResults",
+      "dbResults",
       "DB Explorer Results",
       column,
       { enableScripts: true }

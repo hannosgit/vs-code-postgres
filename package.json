@@ -14,53 +14,53 @@
   "contributes": {
     "commands": [
       {
-        "command": "postgres.connect",
+        "command": "dbExplorer.connect",
         "title": "DB Explorer: Connect"
       },
       {
-        "command": "postgres.disconnect",
+        "command": "dbExplorer.disconnect",
         "title": "DB Explorer: Disconnect"
       },
       {
-        "command": "postgres.refreshSchema",
+        "command": "dbExplorer.refreshSchema",
         "title": "DB Explorer: Refresh Schema"
       },
       {
-        "command": "postgres.runQuery",
+        "command": "dbExplorer.runQuery",
         "title": "DB Explorer: Run Query"
       },
       {
-        "command": "postgres.openTable",
+        "command": "dbExplorer.openTable",
         "title": "DB Explorer: Open Table"
       },
       {
-        "command": "postgres.exportResults",
+        "command": "dbExplorer.exportResults",
         "title": "DB Explorer: Export Results"
       },
       {
-        "command": "postgres.clearPassword",
+        "command": "dbExplorer.clearPassword",
         "title": "DB Explorer: Clear Stored Password"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "postgres.runQuery",
+          "command": "dbExplorer.runQuery",
           "when": "resourceLangId == sql",
           "group": "navigation@10"
         }
       ],
       "explorer/context": [
         {
-          "command": "postgres.runQuery",
+          "command": "dbExplorer.runQuery",
           "when": "resourceExtname == .sql",
           "group": "navigation@10"
         }
       ],
       "view/item/context": [
         {
-          "command": "postgres.openTable",
-          "when": "view == postgresSchema && viewItem == postgresTable",
+          "command": "dbExplorer.openTable",
+          "when": "view == dbSchema && viewItem == dbTable",
           "group": "navigation@10"
         }
       ]
@@ -68,20 +68,20 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "postgresExplorer",
+          "id": "dbExplorer",
           "title": "DB Explorer",
-          "icon": "resources/postgres.svg"
+          "icon": "resources/db.svg"
         }
       ]
     },
     "views": {
-      "postgresExplorer": [
+      "dbExplorer": [
         {
-          "id": "postgresConnections",
+          "id": "dbConnections",
           "name": "DB Connections"
         },
         {
-          "id": "postgresSchema",
+          "id": "dbSchema",
           "name": "DB Schema"
         }
       ]
@@ -89,10 +89,10 @@
     "configuration": {
       "title": "DB Explorer",
       "properties": {
-        "postgresExplorer.profiles": {
+        "dbExplorer.profiles": {
           "type": "array",
           "default": [],
-          "description": "Saved PostgreSQL connection profiles.",
+          "description": "Saved DB connection profiles.",
           "items": {
             "type": "object",
             "required": ["id", "label", "host", "port", "database", "user"],
