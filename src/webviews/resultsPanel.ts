@@ -198,6 +198,13 @@ function buildHtml(
       top: 0;
       z-index: 1;
     }
+    th.row-number,
+    td.row-number {
+      width: 1%;
+      white-space: nowrap;
+      text-align: right;
+      color: var(--muted);
+    }
     td.null {
       color: var(--muted);
       font-style: italic;
@@ -286,13 +293,14 @@ function renderTable(result: QueryExecutionResult): string {
     return `<div class="empty">Query completed. Rows affected: ${rowCount}.</div>`;
   }
 
-  const headerRow = result.columns.map((col) => `<th>${escapeHtml(col)}</th>`).join("");
+  const headerRow = [`<th class="row-number">#</th>`, ...result.columns.map((col) => `<th>${escapeHtml(col)}</th>`)]
+    .join("");
   const allRows = result.rows
-    .map((row) => {
+    .map((row, rowIndex) => {
       const cells = result.columns
         .map((col) => formatCell(row[col]))
         .join("");
-      return `<tr>${cells}</tr>`;
+      return `<tr><td class="row-number">${rowIndex + 1}</td>${cells}</tr>`;
     });
   const safeRows = JSON.stringify(allRows).replace(/</g, "\\u003c");
 

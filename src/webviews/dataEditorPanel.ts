@@ -250,6 +250,17 @@ function buildHtml(state: DataEditorState): string {
       font-weight: 400;
       color: var(--vscode-descriptionForeground);
     }
+    th.row-number,
+    td.row-number {
+      width: 1%;
+      white-space: nowrap;
+      text-align: right;
+      padding: 6px 8px;
+      color: var(--vscode-descriptionForeground);
+    }
+    th.row-number {
+      font-weight: 600;
+    }
     td input {
       width: 100%;
       box-sizing: border-box;
@@ -416,12 +427,17 @@ function buildHtml(state: DataEditorState): string {
       }
       tbody.innerHTML = "";
       inputs.length = 0;
+      const rowNumberOffset = Math.max(0, (state.pageNumber - 1) * state.pageSize);
 
       workingRows.forEach((row, rowIndex) => {
         const tr = document.createElement("tr");
         if (row.isNew) {
           tr.classList.add("new-row");
         }
+        const rowNumberCell = document.createElement("td");
+        rowNumberCell.classList.add("row-number");
+        rowNumberCell.textContent = String(rowNumberOffset + rowIndex + 1);
+        tr.appendChild(rowNumberCell);
         state.columns.forEach((_, columnIndex) => {
           const td = document.createElement("td");
           const input = document.createElement("input");
@@ -564,7 +580,7 @@ function renderTableShell(columns: string[], columnTypes: string[]): string {
     <div class="table-wrap">
       <table id="data-table">
         <thead>
-          <tr>${headers}</tr>
+          <tr><th class="row-number">#</th>${headers}</tr>
         </thead>
         <tbody></tbody>
       </table>
