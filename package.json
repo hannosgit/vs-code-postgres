@@ -60,7 +60,7 @@
       "view/item/context": [
         {
           "command": "dbExplorer.refreshSchema",
-          "when": "view == dbSchema",
+          "when": "view == dbSchema && viewItem == dbSchema",
           "group": "navigation@5"
         },
         {
