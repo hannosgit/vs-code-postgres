@@ -1,0 +1,35 @@
+# Development sources and tests
+src/**
+test/**
+dist/test/**
+
+# Tooling and local workspace files
+.vscode/**
+.vscode-test/**
+.git/**
+.github/**
+*.code-workspace
+
+# Repository metadata not needed at runtime
+.gitignore
+AGENTS.md
+specs.md
+tsconfig.json
+package-lock.json
+db-explorer-*.vsix
+
+# Keep the shipped extension lean
+**/*.map
+**/*.ts
+
+# Dependency files not needed at runtime
+node_modules/**/test/**
+node_modules/**/tests/**
+node_modules/**/__tests__/**
+node_modules/**/*.test.js
+node_modules/**/*.spec.js
+node_modules/**/bench*.js
+node_modules/**/.travis.yml
+node_modules/**/Makefile
+node_modules/**/README*
+node_modules/**/readme*
